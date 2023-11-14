@@ -1,0 +1,223 @@
+In the ISQL tool(after connection)...
+Command:
+
+    SHOW TABLES;
+
+Output:
+
+       ABONOS                                 CAJAS
+       CLIENTES                               CONFIGURACION
+       CORTE_IMPUESTOS_COBRADOS               CORTE_IMP_COBRADOS_OPERACION
+       CORTE_MOVIMIENTOS                      CORTE_OPERACIONES
+       CORTE_VENTAS_DEPTO_OPERACIONES         CORTE_VENTAS_POR_DEPTO
+       DEPARTAMENTOS                          DEPTS
+       FACTURACION_CERTIFICADOS               FACTURACION_CLIENTES
+       FACTURACION_EMISORES                   FACTURACION_FOLIOS
+       FACTURACION_INFORMES                   FACTURAS
+       HISTORIAL_INVENTARIO                   HISTORIAL_USUARIOS
+       IMPUESTOS                              MEDIDAS
+       MOVIMIENTOS                            OPERACIONES
+       PRODUCTOS                              PRODUCTOS_BASE
+       PRODUCTOS_UDF_RECARGAS                 PROMOCIONES_POR_CANTIDAD
+       PROV                                   SCHEMA_INFO
+       TURNOS                                 USUARIOS
+       VENTAS                                 VENTATICKETS
+       VENTATICKETS_ARTICULOS                 VENTA_DE_RECARGAS
+
+Command: 
+
+    SHOW TABLE PRODUCTOS;
+
+Output:
+        CODIGO                          (TCODIGOPRODUCTO) VARCHAR(20) Not Null
+        DESCRIPCION                     (TPRODUCTODESCRIPCION) VARCHAR(255) Nullable
+        TVENTA                          (TTIPOVENTA) CHAR(1) Not Null
+        PCOSTO                          (TMONEDA) FLOAT Nullable
+        PVENTA                          (TMONEDA) FLOAT Nullable
+        DEPT                            (TLLAVE) INTEGER Nullable
+        PROVID                          (TLLAVE) INTEGER Nullable
+        UMEDIDA                         (TLLAVE) INTEGER Nullable
+        MAYOREO                         (TMONEDA) FLOAT Nullable
+        IPRIORIDAD                      (TSMALLINT) SMALLINT Nullable
+        DINVENTARIO                     (TCANTIDADINV) DOUBLE PRECISION Nullable
+        DINVMINIMO                      (TCANTIDADINV) DOUBLE PRECISION Nullable
+        DINVMAXIMO                      (TCANTIDADINV) DOUBLE PRECISION Nullable
+        CHECADO_EN                      (TFECHA) DATE Nullable
+        PORCENTAJE_GANANCIA             (TSMALLINT) SMALLINT Nullable DEFAULT 0
+        COMPONENTES                     (TCADENALARGA) VARCHAR(255) Nullable
+        IMPUESTOS                       (TCADENALARGA) VARCHAR(255) Nullable
+        PVENTA_ANTERIOR                 (TMONEDA) FLOAT Nullable DEFAULT 0
+        PCOSTO_ANTERIOR                 (TMONEDA) FLOAT Nullable DEFAULT 0
+        PMAYOREO_ANTERIOR               (TMONEDA) FLOAT Nullable DEFAULT 0
+        CONSTRAINT PK_PRODUCTOS:
+        Primary key (CODIGO)
+
+Command:
+
+    SHOW TABLE DEPARTAMENTOS;
+
+Output:
+
+        ID                              (TLLAVE) INTEGER Not Null
+        NOMBRE                          (TCADENAMEDIANA) VARCHAR(50) Not Null
+        PORCENTAJE_IMPUESTO             (TSMALLINT) SMALLINT Nullable DEFAULT 0.0
+        ACTIVO                          (TBOOLEANO) CHAR(1) Nullable DEFAULT 1
+        CONSTRAINT PK_DEPARTAMENTOS:
+        Primary key (ID)
+        CONSTRAINT UNQ1_DEPARTAMENTOS:
+        Unique key (NOMBRE, ACTIVO)
+
+        Triggers on Table DEPARTAMENTOS:
+        DEPARTAMENTOS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLE DEPTS;
+
+Output:
+
+        NUM                             (TLLAVE) INTEGER Not Null
+        NOMBRE                          (TCADENAMEDIANA) VARCHAR(50) Nullable
+        CONSTRAINT PK_DEPTS:
+        Primary key (NUM)
+
+        Triggers on Table DEPTS:
+        DEPTS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLES MEDIDAS;
+
+Output:
+
+        CODIGO                          (TLLAVE) INTEGER Not Null
+        NOMBRE                          (TMEDIDA) VARCHAR(3) Nullable
+        CONSTRAINT PK_MEDIDAS:
+        Primary key (CODIGO)
+
+        Triggers on Table MEDIDAS:
+        MEDIDAS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLE SCHEMA_INFO;
+
+Output:
+
+        VERSION_DB                      INTEGER Nullable
+
+Command:
+
+    SHOW TABLE PROV;
+
+Output:
+        NUM                             (TLLAVE) INTEGER Not Null
+        NOMBRE                          (TCADENAMEDIANA) VARCHAR(50) Nullable
+        DIRECCION                       (TCADENAMEDIANA) VARCHAR(50) Nullable
+        TELEFONOS                       (TCADENAMEDIANA) VARCHAR(50) Nullable
+        CONSTRAINT PK_PROV:
+        Primary key (NUM)
+
+        Triggers on Table PROV:
+        PROV_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLE CONFIGURACION;
+
+Output:
+
+        ID                              (TLLAVE) INTEGER Not Null
+        PARAMETRO                       (TCADENALARGA) VARCHAR(255) Nullable
+        VALOR                           (TCADENALARGA) VARCHAR(255) Nullable
+        CAJA_ID                         (TLLAVE) INTEGER Nullable
+        CONSTRAINT PK_CONFIGURACION:
+        Primary key (ID)
+
+        Triggers on Table CONFIGURACION:
+        CONFIGURACION_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLE OPERACIONES;
+
+Output:
+
+        ID                              (TLLAVE) INTEGER Not Null
+        DINERO_EN_CAJA                  (TMONEDA) FLOAT Nullable DEFAULT 0
+        TIPO_DE_CAMBIO                  (TMONEDA) FLOAT Nullable DEFAULT 0
+        INICIO_USUARIO_ID               (TLLAVE) INTEGER Not Null
+        INICIO_EN                       (TFECHAHORA) TIMESTAMP Not Null
+        CERRO_EN                        (TFECHAHORA) TIMESTAMP Nullable
+        CAJA_ID                         (TLLAVE) INTEGER Not Null
+        ABIERTA                         (TBOOLEANO) CHAR(1) Nullable DEFAULT 't'
+        VENTAS                          (TMONEDA) FLOAT Nullable DEFAULT 0
+        SALIDAS                         (TMONEDA) FLOAT Nullable DEFAULT 0
+        ENTRADAS                        (TMONEDA) FLOAT Nullable DEFAULT 0
+        PAGOS                           (TMONEDA) FLOAT Nullable DEFAULT 0
+        IMPUESTOS                       (TMONEDA) FLOAT Nullable DEFAULT 0
+        GANANCIAS                       (TMONEDA) FLOAT Nullable DEFAULT 0
+        ABONO_ID                        (TLLAVE) INTEGER Nullable
+        INGRESOS_TARJETA                (TMONEDA) FLOAT Nullable DEFAULT 0
+        INGRESOS_VALES                  (TMONEDA) FLOAT Nullable DEFAULT 0
+        INGRESOS_EFECTIVO               (TMONEDA) FLOAT Nullable DEFAULT 0
+        CONSTRAINT PK_OPERACIONES:
+        Primary key (ID)
+
+        Triggers on Table OPERACIONES:
+        OPERACIONES_BI, Sequence: 0, Type: BEFORE INSERT, Active
+
+Command:
+
+    SHOW TABLE PRODUCTOS_BASE;
+
+Output:
+
+        CODIGO                          (TCODIGOPRODUCTO) VARCHAR(20) Not Null
+        DESCRIPCION                     (TPRODUCTODESCRIPCION) VARCHAR(255) Nullable
+        CONSTRAINT PK_PRODUCTOS_BASE:
+        Primary key (CODIGO)
+
+************************************** TRIGGERS ***********************************************
+
+
+Command:
+
+    SHOW TRIGGERS DEPARTAMENTOS_BI;
+
+Output:
+        Triggers on Table DEPARTAMENTOS:
+        DEPARTAMENTOS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+        as  begin   if (new.id is null) then     new.id = gen_id(gen_DEPARTAMENTOS_id,1)
+        ; end
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Command:
+
+    SHOW TRIGGERS DEPTS_BI;
+
+Output:
+
+        Triggers on Table DEPTS:
+        DEPTS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+        AS
+        BEGIN
+        IF (NEW.NUM IS NULL) THEN
+            NEW.NUM = GEN_ID(GEN_DEPTS_ID,1);
+        END
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Command:
+
+    SHOW TRIGGERS MEDIDAS_BI;
+
+Output:
+
+        Triggers on Table MEDIDAS:
+        MEDIDAS_BI, Sequence: 0, Type: BEFORE INSERT, Active
+        AS
+        BEGIN
+        IF (NEW.CODIGO IS NULL) THEN
+            NEW.CODIGO = GEN_ID(GEN_MEDIDAS_ID,1);
+        END
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -1,0 +1,5 @@
+*.FDB
+*.xlsm
+*.xlsx
+__pycache__/*
+respaldo/*
