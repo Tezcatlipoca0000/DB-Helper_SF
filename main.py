@@ -5,6 +5,8 @@ from get_prov import get_prov
 from save_to_db import update_db
 from save_to_xl import copy_price
 import sys
+import os
+import subprocess
 
 force = False
 incl = []
@@ -25,6 +27,23 @@ for arg in sys.argv:
         quit()
 
 print('The update options:', 'enforce:', force, 'include:', incl, 'exclude:', excl)
+
+"""
+# make sure server is running
+print("Making sure the server is running...")
+try:
+    service = os.popen("sc query FirebirdGuardianDefaultInstance").read()
+    print("Firebird Guardian is ----> ", service, type(service), ("STOPPED" in service), ("RUNNING" in service))
+except:
+    service = ""
+if not "RUNNING" in service:
+    result = subprocess.run(["cmd", "/c", "runas", "/user:Admin", "C:\\Users\\casa\\Desktop\\DB-Helper\\initiate_server.cmd"], check=True)
+    print(result)
+    #prog = subprocess.Popen(['runas', '/profile:Admin', '/user:Admin', 'initiate_server.cmd'], stdin=subprocess.PIPE)
+    #prog.stdin.write("123")
+    #prog.communicate()
+"""    
+
 
 print('Starting...')
 dept_info = get_prov()
@@ -47,4 +66,3 @@ while True:
     elif proceed.upper() == 'E':
         print('Exiting system without updating the DB')
         break
-    else: continue
